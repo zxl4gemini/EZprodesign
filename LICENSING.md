@@ -1,16 +1,15 @@
-# License clearance required before publication
+# Licensing and third-party notices
 
-The original source was developed in a university laboratory research context.
-We have NOT yet established which individual/institution holds copyright
-and which contributions may be relicensed. Therefore this private candidate
-does not yet grant an open-source copyright license.
+The generic EZprodesign scientific software in this curated repository is
+released under the [MIT License](LICENSE), based on the project maintainer's
+authorization. This does **not** license unpublished research projects,
+nonpublic datasets, structure files, generated model weights, designs,
+or confidential laboratory experiments from any development workspace.
 
-Before public release: obtain confirmation from code rights holder(s) and
-relevant university/lab policies; confirm all collaborators' contribution
-rights; select an approved OSI license (e.g., BSD-3-Clause, MIT or Apache-2.0);
-add LICENSE and matching source notices. The bundled 3Dmol.js distribution
-retains its own BSD-3-Clause notice and acknowledgments; confirm redistribution
-is compatible with the chosen project license.
+The bundled unmodified 3Dmol.js distribution has its own **BSD-3-Clause**
+license and upstream component notices, preserved in
+`v15_web/vendor/LICENSE-3Dmol.txt` and
+`v15_web/vendor/LICENSE-NOTICE.txt`. MIT does not replace those notices.
 
-Do NOT describe this private snapshot as already open source or submit it
-as the qualifying public repository to Codex for OSS.
+The 1UBQ demonstration structure is from the open RCSB/wwPDB archive
+(CC0-1.0), with provenance and checksum in `examples/1UBQ.receipt.json`.

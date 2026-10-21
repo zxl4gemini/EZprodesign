@@ -1,49 +1,30 @@
-# Curated public-release safety audit — 2026-10-21
+# Public release provenance and exclusions — 2026-10-21
 
-**Scope:** isolated v1.5 generic engine and local web UI, no prior git
-history. This snapshot was created by copying selected code and documentation
-from a larger private research workspace; it was not a wholesale upload.
+This repository is a **curated generic scientific software package**, not a
+mirror of the original private research workspace.
 
 ## Included
 
-- Structural engine: core `v15_engine/` (parsing, geometric gates, scoring), excluding private-fixture validation runner.
-- Local Flask UI: `v15_web/`, bounded in-memory upload/JSON API, 3D viewer.
-- Public-domain RCSB 1UBQ structure and provenance SHA256 receipt.
-- 3Dmol.js vendor distribution and BSD-3-Clause license/attribution notice.
-- Public-only tests, setup metadata, documentation and GitHub CI.
+- CPU-only structure analysis engine and CLI
+- Loopback-only Flask 3D molecular review UI and export functionality
+- Unmodified 3Dmol.js with all accompanying BSD-3-Clause license notices
+- RCSB/wwPDB 1UBQ CC0-1.0 demo data with checksum provenance
+- MIT project license, reproducible public-only tests and CI
 
-## Deliberately excluded
+## Excluded
 
-- All raw and processed lab structural files, coordinates, cryo-EM/tomo data,
-  live annotation databases, private model predictions and derived visualizations.
-- All original `data/`, `output/`, `releases/`, `reviews/`, `runs/`
-  folders and original Git history.
-- Research-specific SLC34A2/NK2R/DRG/Cage test fixtures or outputs, model designs,
-  internal reviewers' transcripts and development logs.
-- HPC/Slurm deployment recipes, machine aliases, personal paths, local authentication,
-  cloud credentials and hidden assistant configuration directories.
-- Untracked v16–v18 experimental work and unpublished benchmarks.
-- No secrets or access tokens were copied knowingly.
+- Nonpublic SLC34A2, NK2R, TMEM63B, cage and DRG designs and results
+- Private raw structures, sequences, cryo-EM volumes, generated binder
+  candidates, weights, HPC job data, experiments and laboratory documents
+- Research project Git history, caches, run outputs, internal audit transcripts
+- Personal paths, tokens, keys and hidden development configuration
+- Active v16–v18 experimental and laboratory-specific development
 
-## Checks
+## Publication policy and limitations
 
-- Source sizes and file inventory logged locally before publishing.
-- Python syntax compilation, Node JS syntax, and public test suite.
-- Scanned staged text for secrets, email/identity strings, private absolute
-  paths, internal targets and embedded external URLs. Audit must be rerun
-  after changes.
-- Public test cases use only 1UBQ and synthetic sequences; no test-time download.
-
-## Blocking publication issues
-
-1. **Intellectual property / copyright ownership**: obtain confirmation from
-   the software rights holder(s), collaborators and institutional requirements.
-2. **License**: add an approved OSI license only after item 1. Until then this
-   repository is a private release candidate, NOT yet open source.
-3. **Usability**: verify clean install/CI on an independent machine, documentation,
-   and the public repo's version/release workflow.
-4. **Adoption**: new project has no verified external stars, downloads or community
-   maintenance. Applications must not suggest otherwise.
-
-Do not change GitHub visibility or apply as a qualifying public repository until
-items 1 and 2 are resolved.
+The project maintainer has authorized publication of this generic software.
+That authorization does not release private experiments or other lab assets.
+Functional regression tests and secret scanning cannot guarantee security.
+No scientific binding affinity, experimental hit-rate or epitope accuracy is
+claimed, and the loopback Flask server must not be publicly deployed.
+New-project adoption figures should not be invented in applications.

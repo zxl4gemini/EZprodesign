@@ -1,9 +1,19 @@
-# Contributing
+# Contributing to EZprodesign
 
-Once publicly released, please open an issue with a minimal reproducible
-case and a non-confidential/public structure. Never upload proprietary
-protein coordinates, patient information, private HPC directories or API keys.
-For proposed code changes, include tests and note whether claims are
-engineering, geometric, or experimentally validated. Scientific changes
-must document caveats and counterexamples, not only appealing 3D images.
-We prefer small focused pull requests with provenance and unit tests.
+We welcome reproducible scientific bug reports and focused code changes.
+Share only **public** test structures (or synthetic FASTA), Python version,
+reproduction command, expected and observed output. Do not submit private
+research structures, unpublished binders, patient data, passwords or HPC logs.
+
+Before sending a pull request, run:
+
+```bash
+python -m pip install -e ".[web,dev]"
+python -m unittest discover -s tests -v
+python -m pytest -q tests
+```
+
+A scientific change must state its limitations and add public-data tests;
+software execution is not experimental validation. Good contributions
+include cross-platform installation, accessibility, translation, performance,
+negative controls and deterministic scientific regression checks.

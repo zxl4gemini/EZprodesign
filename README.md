@@ -1,78 +1,98 @@
-# EZprodesign — structural epitope accessibility explorer
+# EZprodesign
 
-**Research software preview | Engine v1.5 | GitHub release not yet approved**
+**Interpretable protein surface accessibility and exploratory epitope review**
 
-EZprodesign is an interpretable, local-first workbench for exploring **candidate
-accessible surface patches** on protein structures. It supports uploaded
-PDB/mmCIF files and FASTA input, offers geometric exposure and approach checks,
-glycosylation-motif cautions, a 3Dmol.js visualization, and a JSON/CLI engine.
-This repo is a deliberately minimal **generic software extraction** from a
-larger private lab research workspace.
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Tests](https://github.com/zxl4gemini/EZprodesign/actions/workflows/tests.yml/badge.svg)](https://github.com/zxl4gemini/EZprodesign/actions/workflows/tests.yml)
 
-**Important:** This is *not* an antibody generator, docking predictor, binding
-affinity predictor, experimental epitope validation or a calibrated score.
-No predicted pLDDT is invented from crystallographic B-factors.
-A membrane orientation not independently supplied and verified remains unknown.
-Results are hypotheses for human expert review. See [scientific limitations](docs/SCIENTIFIC_SCOPE.md).
+EZprodesign is a **local-first open-source structural biology workbench**.
+It combines CPU-only protein structure parsing, solvent-exposure and steric
+approach heuristics, candidate surface patch ranking, interactive 3Dmol.js
+visualization, scientific uncertainty warnings, and exportable review data.
+Researchers can explore soluble or membrane-associated proteins on their
+own computer without a cloud account or GPU.
 
-## Quick start (Python 3.10+)
+**Scientific nonclaims:** This is *not* an antibody sequence generator,
+experimentally validated epitope predictor, docking simulator, or affinity
+predictor. Its numeric values are heuristic priorities, **not binding
+probabilities**. Membrane orientation, glycan occupancy, and detergent-micelle
+boundaries are not independently verified. Read [scientific scope](docs/SCIENTIFIC_SCOPE.md).
 
-From this repository's root:
+## Browser quick start — Python 3.10+
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -e '.[web,dev]'
-python -m v15_engine examples/1UBQ.pdb --environment soluble > /tmp/ezprodesign_demo.json
-python -m v15_web
-# open http://127.0.0.1:18785
+git clone https://github.com/zxl4gemini/EZprodesign.git
+cd EZprodesign
+python -m venv .venv
+source .venv/bin/activate           # Windows PowerShell: .venv\Scripts\Activate.ps1
+python -m pip install -e ".[web]"
+python -m v15_web                  # optional: --port 18786
 ```
 
-Python core library:
+Open **http://127.0.0.1:18785** in Chrome or Edge and click the bundled
+**1UBQ ubiquitin** example, or upload your own PDB, mmCIF or FASTA file.
+The UI is currently Chinese-language; English documentation is available.
+Uploaded structure data are analyzed in local memory and are not saved
+server-side by default. **Never expose the local Flask server to the Internet.**
+
+## Command-line quick start
+
+```bash
+python -m v15_engine examples/1UBQ.pdb --environment soluble --summary
+python -m v15_engine examples/1UBQ.pdb --environment soluble > result.json
+python -m v15_engine examples/1UBQ.pdb --environment bilayer --binder Fab --summary
+```
+
+Accepted extensions: `.pdb`, `.cif`, `.mmcif`, `.fa`, `.fasta`, `.faa`
+(maximum 15 MiB). Environments: `soluble`, `detergent` (default), `bilayer`.
+Binder-envelope proxies: `VHH` (default) or `Fab`. A FASTA-only analysis
+returns `needs_structure` and **no artificial 3D hotspots**.
+
+Python API:
 
 ```python
+from pathlib import Path
 from v15_engine import analyze_bytes
-raw = open("examples/1UBQ.pdb", "rb").read()
-report = analyze_bytes("1UBQ.pdb", raw, environment="soluble", binder_type="VHH")
-print(report["status"], len(report["patches"]))
+
+source = Path("examples/1UBQ.pdb")
+result = analyze_bytes(source.name, source.read_bytes(), environment="soluble")
+print(result["status"], len(result["patches"]))
 ```
 
-Browser: Open localhost:18785, click the included **1UBQ** structure or
-upload your own PDB/mmCIF/FASTA. The service binds to 127.0.0.1 only.
-Upload bytes are processed in memory and are not saved by default; results
-are sent back to your browser. Do not deploy this development server to a
-public interface.
+## Reproducibility and tests
 
-## Demo and verifiability
+```bash
+python -m pip install -e ".[web,dev]"
+python -m unittest discover -s tests -v
+python -m pytest -q tests
+node --check v15_web/static/app.js     # Node.js optional
+```
 
-- `examples/1UBQ.pdb`: the public-domain RCSB PDB 1UBQ structure with a
-  SHA-256 provenance receipt and attribution in `examples/1UBQ.receipt.json`.
-- `tests/test_public_release.py`: synthetic and public-structure tests;
-  never needs internal structures or laboratory data.
-- `python -m unittest discover -s tests -v` or `pytest -q tests`
-- `node --check v15_web/static/app.js` (Node optional)
-- Scientific assumptions and limitations: `docs/SCIENTIFIC_SCOPE.md`
-- Security considerations: `SECURITY.md`
+The supplied `examples/1UBQ.pdb` is public RCSB/wwPDB structure data
+(CC0-1.0), with checksum and attribution in `examples/1UBQ.receipt.json`.
+It verifies execution, **not experimental antibody binding**.
+Continuous integration runs public-only regression tests across Python versions.
 
-## Code layout
+## Repository layout
 
-| Path | Role |
+| Path | Purpose |
 |---|---|
-| `v15_engine/` | Data-independent Python structure parsing/scoring engine |
-| `v15_web/` | Local Flask browser workbench |
-| `v15_web/vendor/` | Unmodified 3Dmol.js redistribution and upstream license notices |
-| `examples/` | Public RCSB test structure and provenance receipt |
-| `tests/` | Public safe contracts and API smoke tests |
+| `v15_engine/` | Deterministic structural engine and CLI |
+| `v15_web/` | Loopback Flask UI and 3Dmol viewer |
+| `examples/` | Public 1UBQ demo and provenance |
+| `tests/` | Public-only regression tests |
+| `docs/SCIENTIFIC_SCOPE.md` | Scientific assumptions and limitations |
+| `OSS_RELEASE_AUDIT.md` | Published-code scope and exclusions |
 
-## Status and contribution
+## Community and licenses
 
-This is an initial extracted package, not evidence of ecosystem adoption.
-No verified binding specificity, precision, recall, or utility beyond
-documented tests is claimed. We invite real reproducibility feedback and
-independent benchmarking once the repository is publicly released.
+EZprodesign is a **new research software project**; it has no claimed
+downstream adoption, experimentally validated binding accuracy or hit rate.
+We welcome reproducible issues, public-data benchmarks, scientific controls,
+translations and tested PRs. See [CONTRIBUTING.md](CONTRIBUTING.md) and
+[SECURITY.md](SECURITY.md).
 
-**Licensing gate:** This private staging version deliberately does not
-assert that institution-developed code may be publicly relicensed.
-The rights-holder must clear IP/third-party terms and add an approved
-open-source license **before changing the repository to Public**.
-See `LICENSING.md`.
+Generic project software is [MIT-licensed](LICENSE), © 2026 EZprodesign
+contributors. Bundled 3Dmol.js retains its **BSD-3-Clause** license.
+1UBQ public data are **wwPDB CC0-1.0**. See [LICENSING.md](LICENSING.md).
+Unpublished laboratory experiments and private designs are excluded.

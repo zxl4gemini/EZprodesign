@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=65", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ezprodesign"
+version = "0.1.0rc1"
+description = "Interpretable exploratory protein surface accessibility toolkit"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.24,<3", "scipy>=1.10,<2", "biopython>=1.80,<2"]
+classifiers = ["Development Status :: 3 - Alpha", "Intended Audience :: Science/Research", "Programming Language :: Python :: 3"]
+[project.optional-dependencies]
+web = ["Flask>=2.2,<4"]
+dev = ["pytest>=7"]
+[tool.setuptools]
+packages = ["v15_engine", "v15_web"]
+[tool.setuptools.package-data]
+v15_web = ["static/*", "templates/*", "vendor/*", "examples/*"]
+[tool.pytest.ini_options]
+testpaths = ["tests"]

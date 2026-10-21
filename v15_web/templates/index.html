@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>EZprodesign · 蛋白抗体热点探索</title><link rel="icon" href="data:,"><link rel="stylesheet" href="/static/app.css"><script defer src="/vendor/3Dmol-min.js"></script><script defer src="/static/app.js"></script></head>
+<body>
+<header><a class="brand" href="/">EZ<span>prodesign</span><small>1.5</small></a><div class="local"><span></span> 本机计算 · 上传不留存</div></header>
+<main>
+<section class="intro"><div class="eyebrow">STRUCTURE → SURFACE → HOTSPOTS</div><h1>从你的蛋白结构，<br class="mobile">找到值得探索的抗体热点。</h1><p>上传任意蛋白结构，自动分析表面可及性、成组残基与几何风险。结果用于人工复核和设计探索。</p></section>
+<section class="upload-panel" aria-label="上传与分析">
+<div id="dropzone" class="dropzone"><input id="fileInput" type="file" accept=".pdb,.cif,.mmcif,.fa,.fasta,.faa" aria-label="上传蛋白文件"><div class="upload-icon">↑</div><strong id="filename">拖入蛋白文件，或点击选择</strong><span>PDB · mmCIF / AF3 · FASTA</span><small id="fileLimit">本机内存处理 · 请求上限 16 MiB · 不会自动预测结构</small></div>
+<div class="options"><label>实验环境<select id="environment"><option value="detergent">DDM / GDN 胶束（默认）</option><option value="soluble">可溶性蛋白</option><option value="bilayer">细胞双层膜（需确认朝向）</option></select></label><label>抗体类型<select id="binderType"><option value="VHH">VHH · 单域抗体</option><option value="Fab">Fab · 抗原结合片段</option></select></label><label>目标链<select id="targetChain"><option value="auto">自动选择</option></select></label><button id="analyze" class="primary" disabled>自动分析 <span>↗</span></button></div>
+<div class="upload-bottom"><span>试试本地结构</span><button id="sampleUbq" class="text-button" disabled>泛素 · 1UBQ</button><span id="serviceState" class="service">正在检查引擎…</span></div>
+</section>
+<div id="progress" class="progress" role="status" aria-live="polite">选择文件后自动开始分析；更换环境、抗体类型或链会重新计算。</div><div id="error" class="error" role="alert" hidden></div>
+<section id="result" hidden>
+<div class="result-heading"><div><div class="eyebrow">YOUR STRUCTURE, EXPLORATORY EVIDENCE</div><h2 id="resultTitle">结构分析</h2><p id="resultMeta"></p></div><span id="statusBadge" class="badge">待人工复核</span></div>
+<div id="environmentNote" class="notice"></div>
+<div class="workspace"><section class="scene"><div class="scene-toolbar"><strong>蛋白三维表面</strong><div><label><input id="surfaceToggle" type="checkbox" checked> 表面</label><button id="rotate">旋转</button><button id="resetView">全貌</button></div></div><div id="viewer" aria-label="可旋转的蛋白三维结构"></div><div id="viewerEmpty" class="viewer-empty">上传三维结构后显示真实原子坐标</div><div class="legend"><span>低优先级 / 风险</span><i></i><span>较高探索优先级</span></div><p class="scene-caption">拖动旋转 · 滚轮缩放 · 点击残基检查；颜色为启发式优先级，不是亲和力。</p></section><aside class="candidate-panel"><div class="candidate-heading"><h3>自动热点分组</h3><span id="patchCount"></span></div><p class="muted">点击卡片聚焦。勾选要导出的分组，保留其复核状态。</p><div id="patches"></div><div id="emptyPatches" class="empty" hidden></div></aside></div>
+<div class="details-grid"><section class="detail-panel"><h3>热点与残基证据 <span id="selectedLabel"></span></h3><div id="patchDetail" class="muted">选择一个热点分组，查看表面积、原始编号、糖基化与几何可及性。</div><div id="residueDetail"></div></section><section class="detail-panel"><h3>可靠性与边界</h3><p>所有结果均未验证结合或亲和力。水探针可及性不等于抗体可及性，粗粒度通道检查不等于真实抗体对接。</p><div id="warnings"></div><details><summary>引擎方法与质量控制</summary><pre id="qc"></pre></details></section></div>
+<section class="export-panel"><div><h3>导出当前复核清单</h3><p id="exportInfo">请选择需要保留的分组。</p><small>保留原始链 / 残基映射、几何约束、不确定性与引擎哈希。RFantibody / BindCraft 适配尚未提供。</small></div><div class="export-buttons"><button id="exportJson" disabled>JSON</button><button id="exportTsv" disabled>TSV</button><button id="exportPml" disabled>PyMOL .pml</button></div></section>
+<details class="sequence-panel"><summary>序列与来源溯源</summary><pre id="sequence"></pre><p id="sequenceNote"></p><code id="sourceHash"></code></details>
+</section>
+<footer><span>EZprodesign 1.5 · Local structure workspace</span><span>探索性几何分析 · 人工复核必需</span></footer>
+</main></body></html>

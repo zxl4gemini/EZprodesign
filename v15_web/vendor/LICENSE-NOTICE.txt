@@ -1,0 +1,4 @@
+3Dmol.js 2.5.3 from https://cdn.jsdelivr.net/npm/3dmol@2.5.3/build/3Dmol-min.js
+Project: https://github.com/3dmol/3Dmol.js
+License: BSD-3-Clause (check upstream repository LICENSE for precise terms).
+This is the published visualization library; no upstream edits.

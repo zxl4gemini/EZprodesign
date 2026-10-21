@@ -21,6 +21,14 @@ class PublicResearchContracts(unittest.TestCase):
     def setUpClass(cls):
         cls.raw = DEMO.read_bytes()
 
+    def test_packaged_public_demo_matches_source(self):
+        import hashlib
+        import v15_web
+        packaged = Path(v15_web.__file__).resolve().parent / "examples" / "1UBQ.pdb"
+        self.assertTrue(packaged.is_file(), "The wheel must include the offline public sample")
+        self.assertEqual(hashlib.sha256(packaged.read_bytes()).hexdigest(),
+                         hashlib.sha256(self.raw).hexdigest())
+
     def test_cli_human_summary_never_claims_affinity(self):
         p = subprocess.run(
             [sys.executable, "-m", "v15_engine", str(DEMO),

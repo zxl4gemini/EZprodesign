@@ -1,0 +1,3 @@
+# PDB coordinates are fixed-width scientific records: preserve exact bytes,
+# including their semantically valid trailing padding, for SHA-256 provenance.
+*.pdb -text whitespace=-blank-at-eol

@@ -14,6 +14,7 @@ logs/
 *.mmcif
 *.pdb
 !examples/1UBQ.pdb
+!v15_web/examples/1UBQ.pdb
 *.pt
 *.ckpt
 *.safetensors
